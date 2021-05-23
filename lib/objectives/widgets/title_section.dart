@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'atm/title.dart';
 
 class TitleSection extends StatelessWidget {
   @override
@@ -9,17 +10,16 @@ class TitleSection extends StatelessWidget {
           children: [
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
                     padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      'Quais são seus objetivos?',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+                    child: AppTitle('Quais são seus objetivos?'),
                   ),
-                  Text('Escolha pelo menos uma opção abaixo')
+                  Text(
+                    'Escolha pelo menos uma opção abaixo',
+                    style: TextStyle(fontSize: 14),
+                  )
                 ],
               ),
             )

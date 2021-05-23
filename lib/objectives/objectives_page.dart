@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trackejo/objectives/widgets/confirm_button.dart';
 import 'package:flutter_trackejo/objectives/widgets/title_section.dart';
 import 'package:flutter_trackejo/widgets/button.dart';
+import 'package:flutter_trackejo/widgets/page.dart';
 import 'option.dart';
 
-class Objectives extends StatefulWidget {
+class ObjectivesPage extends StatefulWidget {
   @override
-  _ObjectivesState createState() => _ObjectivesState();
+  _ObjectivesPageState createState() => _ObjectivesPageState();
 }
 
-class _ObjectivesState extends State<Objectives> {
+class _ObjectivesPageState extends State<ObjectivesPage> {
   List<Option> options = [
     Option('o1', 'Aumentar minha produtividade', Icons.access_time),
     Option('o2', 'Construir bons hábitos', Icons.local_florist),
@@ -29,22 +31,34 @@ class _ObjectivesState extends State<Objectives> {
   }
 
   void _confirm(BuildContext context) {
-    // todo: validate options quantity
-    // todo: navigate to next page
     // todo: save user options
     Navigator.pushNamed(context, '/success');
   }
 
+  bool _hasOneSelected() {
+    bool oneOptionSelected = false;
+    options.forEach((option) {
+      if (option.isSelected) oneOptionSelected = true;
+    });
+    return oneOptionSelected;
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext ctx) {
     return Scaffold(
-      body: Column(
-        children: [
-          TitleSection(),
-          _buildOptionList(),
-          // todo: add enable navigation button condition
-          PrimaryButton('Confirmar', onPressed: () => _confirm(context)),
-        ],
+      body: PageContainer(
+        Column(
+          children: [
+            TitleSection(),
+            _buildOptionList(),
+            ConfirmButton(
+              text: 'Continuar',
+              onPressed: () => _confirm(ctx),
+              isDisabled: !_hasOneSelected(),
+            )
+          ],
+        ),
+        noHeader: true,
       ),
     );
   }
