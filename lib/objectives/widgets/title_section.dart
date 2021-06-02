@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'atm/title.dart';
+import 'package:flutter_trackejo/widgets/atm/headings.dart';
 
 class TitleSection extends StatelessWidget {
   @override
@@ -14,7 +14,9 @@ class TitleSection extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.only(bottom: 8),
-                    child: AppTitle('Quais são seus objetivos?'),
+                    child: Heading1(
+                      title: 'Quais são seus objetivos?',
+                    ),
                   ),
                   Text(
                     'Escolha pelo menos uma opção abaixo',

@@ -26,8 +26,8 @@ class _TasksViewState extends State<TasksView> {
   Widget build(BuildContext ctx) {
     TasksProvider tasksProvider = Provider.of<TasksProvider>(ctx);
 
-    print(tasksProvider.getTasks());
     tasks = tasksProvider.getTasks();
+    print(tasks);
 
     return Column(
       children: [
@@ -56,13 +56,20 @@ class _TasksViewState extends State<TasksView> {
   }
 
   Widget _setTicketStyle({Color color = Colors.blue}) {
-    return Container(
-      width: 10,
-      height: 10,
-      decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.all(Radius.circular(2.5))),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // todo: this container is a category item
+        // it must be on another file
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.all(Radius.circular(2.5))),
+        )
+      ],
     );
   }
 }
