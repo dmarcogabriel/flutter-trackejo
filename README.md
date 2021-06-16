@@ -1,16 +1,12 @@
-# flutter_trackejo
+**Sobre o projeto:**
 
-A new Flutter project.
+O Trackejo é um aplicativo de produtividade, feito para transformar dias corridos em dias produtivos, oferecendo o benefício da retrospectiva de quão produtivo o usuário está sendo, além de manter seu fluxo de uso o mais simples possível, poupando tempo do usuário ao utilizar o app.
 
-## Getting Started
+**Integrantes**
+- Gabriel de Marco - RA: 580211
+- Marcos Felipe - RA: 580562
+- Paulo Waib - RA: 598984
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Tecnologias**
+- Linguagem: Flutter
+- Notificações: OneSignal
