@@ -7,6 +7,7 @@ O Trackejo é um aplicativo de produtividade, feito para transformar dias corrid
 - Paulo Waib - RA: 598984
 
 ## Tecnologias
-- Linguagem: Flutter
-- Notificações: OneSignal
-- Prototipação: Figma
+- Dart
+- Flutter
+- OneSignal
+- Figma
