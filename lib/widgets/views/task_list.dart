@@ -4,6 +4,7 @@ import 'package:flutter_trackejo/providers/tasks.dart';
 import 'package:flutter_trackejo/helpers/snackbar.dart';
 import 'package:flutter_trackejo/widgets/atm/sub_title.dart';
 import 'package:flutter_trackejo/widgets/atm/ticket_status.dart';
+import 'package:provider/provider.dart';
 
 class TaskList extends StatefulWidget {
   final String title;
@@ -37,7 +38,9 @@ class _TaskListState extends State<TaskList> {
                         color: Theme.of(ctx).primaryColor,
                       ),
                       title: Text(task.text),
-                      subtitle: Text(task.deadline),
+                      subtitle: task.deadline != null
+                          ? Text(task.deadline)
+                          : Text(''),
                       onTap: () => _handleTapTask(ctx, task),
                       trailing: Radio(
                         activeColor: Theme.of(ctx).primaryColor,
@@ -51,11 +54,12 @@ class _TaskListState extends State<TaskList> {
     );
   }
 
-  void _handleTapTask(BuildContext ctx, Task task) {
+  void _handleTapTask(BuildContext ctx, Task task) async {
     bool done = !task.done;
     this.setState(() {
       task.done = done;
     });
+    Provider.of<TasksProvider>(ctx, listen: false).updateTask(task);
     if (done == true) {
       TCSnackbar.showSnackbar(
           ctx: ctx,

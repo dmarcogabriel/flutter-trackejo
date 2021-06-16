@@ -20,4 +20,9 @@ abstract class Validator {
       return 'Nome deve conter pelo menos nome e sobrenome';
     return null;
   }
+
+  static String validatePresence(String value) {
+    if (value == null || value.isEmpty) return 'Campo obrigatório';
+    return null;
+  }
 }

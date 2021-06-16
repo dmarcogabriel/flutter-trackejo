@@ -1,35 +1,46 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_trackejo/widgets/org/forms/inputs/input.interface.dart';
-
-class DatePickerInput implements InputInterface {
-  String label;
-  String hintText;
-
-  DatePickerInput({@required this.label, this.hintText});
-}
 
 class DatePicker extends StatefulWidget {
-  final DatePickerInput input;
   final String value;
   final Function onChanged;
+  final String label;
+  final String hintText;
+  final String errorText;
 
-  DatePicker(
-      {@required this.input, @required this.value, @required this.onChanged});
+  DatePicker({
+    @required this.label,
+    @required this.value,
+    @required this.onChanged,
+    this.hintText,
+    this.errorText,
+  });
 
   @override
-  _DatePickerState createState() =>
-      _DatePickerState(input: input, value: value, onChanged: onChanged);
+  _DatePickerState createState() => _DatePickerState(
+        label: label,
+        hintText: hintText,
+        value: value,
+        onChanged: onChanged,
+        errorText: errorText,
+      );
 }
 
 class _DatePickerState extends State<DatePicker> {
-  DatePickerInput input;
   String value;
-  Function onChanged;
+  final Function onChanged;
+  final String label;
+  final String hintText;
+  String errorText;
 
-  _DatePickerState(
-      {@required this.input, @required this.value, @required this.onChanged});
+  _DatePickerState({
+    @required this.label,
+    @required this.value,
+    @required this.onChanged,
+    this.hintText,
+    this.errorText,
+  });
 
   @override
   Widget build(BuildContext ctx) {
@@ -44,7 +55,7 @@ class _DatePickerState extends State<DatePicker> {
             ),
           ),
           Text(
-            value != null ? value : input.hintText,
+            value != null ? value : hintText,
             style: TextStyle(color: Color(0xff9B9B9B)),
           ),
         ],

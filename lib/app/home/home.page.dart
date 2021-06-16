@@ -28,6 +28,11 @@ class TabPage {
 }
 
 class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final List<TabPage> tabPages = [
     // TabPage(title: 'Todas', id: 'all'),
     TabPage(title: 'Hoje', id: 'today'),
@@ -38,73 +43,24 @@ class HomePage extends StatefulWidget {
     ),
     TabPage(id: 'next', title: 'Em breve'),
   ];
-
-  @override
-  _HomePageState createState() => _HomePageState(tabPages: tabPages);
-}
-
-class _HomePageState extends State<HomePage> {
-  List<TabPage> tabPages;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  _HomePageState({@required this.tabPages});
-
   @override
-  Widget build(BuildContext ctx) {
-    List<Task> _tasks = Provider.of<TasksProvider>(ctx).getTasks();
+  void initState() {
+    super.initState();
+    Provider.of<TasksProvider>(context, listen: false).loadTasks();
+  }
 
-    // todo: get all tasks
-    return DefaultTabController(
-        length: tabPages.length,
-        child: Scaffold(
-          key: _scaffoldKey,
-          drawer: Drawer(child: SideMenu()),
-          appBar: _buildAppBar(),
-          body: TabBarView(
-              children: tabPages.map((tabPage) {
-            switch (tabPage.id) {
-              // todo: create all tabs
-              // case 'all':
-              //   return AllTab(
-              //     tabPage: tabPage,
-              //     todayTabPage: tabPages.,
-              //     tasks: _tasks,
-              //   );
-              //   break;
-              case 'today':
-                return TodayTab(
-                  tabPage: tabPage,
-                  tasks: _tasks,
-                );
-                break;
-              case 'late':
-                return LateTab(
-                  tabPage: tabPage,
-                  tasks: _tasks,
-                );
-                break;
-              case 'next':
-                return NextTab(
-                  tabPage: tabPage,
-                  tasks: _tasks,
-                );
-                break;
-              default:
-                return PageContainer(
-                  TaskList(
-                      title: tabPage.title,
-                      subTitle: tabPage.subTitle,
-                      tasks: tabPage.tasks ?? []),
-                  noHeader: true,
-                );
-            }
-          }).toList()),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () => _navigateToCreateTask(ctx),
-            backgroundColor: Theme.of(ctx).primaryColor,
-          ),
-        ));
+  void _navigateToCreateTask(BuildContext ctx) async {
+    final result = await Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (_) => CreateTaskPage()));
+    if (result == true) {
+      _reloadPage(ctx);
+    }
+  }
+
+  void _reloadPage(ctx) {
+    // todo: reload page
   }
 
   Widget _buildAppBar() {
@@ -124,14 +80,41 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _navigateToCreateTask(BuildContext ctx) async {
-    final result = await Navigator.of(ctx)
-        .push(MaterialPageRoute(builder: (_) => CreateTaskPage()));
-
-    if (result == true) {
-      print("need to reload");
-      // todo: reload page
-    } else
-      print('doesnt need to reload');
+  @override
+  Widget build(BuildContext ctx) {
+    return DefaultTabController(
+        length: tabPages.length,
+        child: Scaffold(
+          key: _scaffoldKey,
+          drawer: Drawer(child: SideMenu()),
+          appBar: _buildAppBar(),
+          body: TabBarView(
+              children: tabPages.map((tabPage) {
+            switch (tabPage.id) {
+              case 'today':
+                return TodayTab(tabPage: tabPage);
+                break;
+              case 'late':
+                return LateTab(tabPage: tabPage);
+                break;
+              case 'next':
+                return NextTab(tabPage: tabPage);
+                break;
+              default:
+                return PageContainer(
+                  TaskList(
+                      title: tabPage.title,
+                      subTitle: tabPage.subTitle,
+                      tasks: tabPage.tasks ?? []),
+                  noHeader: true,
+                );
+            }
+          }).toList()),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () => _navigateToCreateTask(ctx),
+            backgroundColor: Theme.of(ctx).primaryColor,
+          ),
+        ));
   }
 }

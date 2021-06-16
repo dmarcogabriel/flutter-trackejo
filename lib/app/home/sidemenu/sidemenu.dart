@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_trackejo/app/home/sidemenu/notifications.page.dart';
-import 'package:flutter_trackejo/app/home/sidemenu/user_session.dart';
+import 'package:flutter_trackejo/app/home/sidemenu/widgets/user_session.dart';
 import 'package:flutter_trackejo/helpers/user_name.dart';
 import 'package:flutter_trackejo/providers/login.provider.dart';
 import 'package:flutter_trackejo/providers/user.dart';
 import 'package:flutter_trackejo/widgets/atm/headings.dart';
 import 'package:provider/provider.dart';
 import 'tickets_productivity.dart';
-import 'weekly_productivity.dart';
+import 'weekly_productivity/weekly_productivity.page.dart';
 import 'tasks_done.dart';
 
 class SideMenu extends StatefulWidget {

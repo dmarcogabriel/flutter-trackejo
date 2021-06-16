@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trackejo/providers/login.provider.dart';
 import 'package:flutter_trackejo/providers/notifications.provider.dart';
 import 'package:flutter_trackejo/providers/tasks.dart';
+import 'package:flutter_trackejo/providers/ticket.provider.dart';
 import 'package:flutter_trackejo/providers/user.dart';
 import 'package:flutter_trackejo/widgets/views/loading.dart';
 import 'package:provider/provider.dart';
@@ -36,12 +37,13 @@ class _AppState extends State<App> {
 
           return MultiProvider(
               providers: [
-                Provider(
+                ChangeNotifierProvider(
                   create: (_) => TasksProvider(),
                 ),
                 Provider(create: (_) => UserProvider(user: asyncSnapshot.data)),
                 Provider(create: (_) => LoginProvider()),
-                Provider(create: (_) => NotificationsProvider())
+                Provider(create: (_) => NotificationsProvider()),
+                ChangeNotifierProvider(create: (_) => TicketProvider()),
               ],
               child: MaterialApp(
                 title: 'Trackejo',

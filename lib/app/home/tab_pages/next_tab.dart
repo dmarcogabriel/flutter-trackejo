@@ -5,27 +5,38 @@ import 'package:flutter_trackejo/helpers/date_time.dart';
 import 'package:flutter_trackejo/providers/tasks.dart';
 import 'package:flutter_trackejo/widgets/page.dart';
 import 'package:flutter_trackejo/widgets/views/task_list.dart';
+import 'package:provider/provider.dart';
 
 class NextTab extends StatelessWidget {
-  final List<Task> tasks;
   final TabPage tabPage;
 
-  NextTab({@required this.tasks, @required this.tabPage});
+  NextTab({@required this.tabPage});
 
-  @override
-  Widget build(BuildContext ctx) {
-    List<Task> nextTasks = tasks.where((task) {
+  List<Task> _filterNextTasks(List<Task> tasks) {
+    print('tasks on next');
+    print(tasks);
+    return tasks.where((task) {
       DateTime date = DateTimeHelper.parseFormattedDateString(task.deadline);
       String today = DateTimeHelper.getFormattedToday();
       return task.deadline != today && date.isAfter(DateTime.now());
     }).toList();
+  }
 
-    return PageContainer(
-      TaskList(
-          title: tabPage.title,
-          subTitle: tabPage.subTitle,
-          tasks: nextTasks ?? []),
-      noHeader: true,
+  @override
+  Widget build(BuildContext ctx) {
+    return Consumer<TasksProvider>(
+      builder: (BuildContext context, provider, child) {
+        final _tasks = _filterNextTasks(provider.tasks);
+
+        return PageContainer(
+          TaskList(
+            title: tabPage.title,
+            subTitle: tabPage.subTitle,
+            tasks: _tasks,
+          ),
+          noHeader: true,
+        );
+      },
     );
   }
 }

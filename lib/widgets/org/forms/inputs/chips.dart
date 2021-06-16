@@ -11,32 +11,37 @@ class Choice {
 
 class ChipsInput extends StatefulWidget {
   final String label;
+  final String errorMessage;
   final void Function(Choice) onChanged;
   final List<Choice> choices;
   final bool isMultiSelect;
   final String hintText;
   final bool addMoreButton;
 
-  ChipsInput(
-      {@required this.label,
-      @required this.onChanged,
-      @required this.choices,
-      this.isMultiSelect,
-      this.hintText,
-      this.addMoreButton});
+  ChipsInput({
+    @required this.label,
+    @required this.onChanged,
+    @required this.choices,
+    this.errorMessage,
+    this.isMultiSelect,
+    this.hintText,
+    this.addMoreButton,
+  });
 
   @override
   _ChipsInputState createState() => _ChipsInputState(
-      label: label,
-      onChanged: onChanged,
-      choices: choices,
-      isMultiSelect: isMultiSelect,
-      hintText: hintText,
-      addMoreButton: addMoreButton);
+        label: label,
+        onChanged: onChanged,
+        choices: choices,
+        isMultiSelect: isMultiSelect,
+        hintText: hintText,
+        addMoreButton: addMoreButton,
+        errorMessage: errorMessage,
+      );
 }
 
 class _ChipsInputState extends State<ChipsInput> {
-  String value;
+  String errorMessage;
   List<Choice> choices;
   final String label;
   final void Function(Choice) onChanged;
@@ -44,13 +49,15 @@ class _ChipsInputState extends State<ChipsInput> {
   final String hintText;
   final bool addMoreButton;
 
-  _ChipsInputState(
-      {@required this.label,
-      @required this.onChanged,
-      @required this.choices,
-      this.isMultiSelect,
-      this.hintText = '',
-      this.addMoreButton});
+  _ChipsInputState({
+    @required this.label,
+    @required this.onChanged,
+    @required this.choices,
+    this.errorMessage,
+    this.isMultiSelect,
+    this.hintText = '',
+    this.addMoreButton,
+  });
 
   @override
   Widget build(BuildContext ctx) {
@@ -64,10 +71,12 @@ class _ChipsInputState extends State<ChipsInput> {
 
     return InputDecorator(
       decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),
-          labelText: label,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintText: hintText),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),
+        labelText: label,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        hintText: hintText,
+        errorText: errorMessage,
+      ),
       child: Wrap(alignment: WrapAlignment.spaceAround, children: children),
     );
   }

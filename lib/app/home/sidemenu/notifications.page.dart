@@ -12,10 +12,6 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  bool _lateTasksNotification = false;
-  bool _todayTasksNotification = false;
-  bool _doneTasksFeedbackNotification = false;
-
   Future<NotificationsPreferences> _loadNotificationsPreferences(
     BuildContext ctx,
   ) async {
@@ -34,34 +30,26 @@ class _NotificationsPageState extends State<NotificationsPage> {
           if (asyncSnapshot.connectionState == ConnectionState.waiting)
             return MaterialApp(title: "Carregando...", home: LoadingPage());
 
-          // todo: tenho que pegar esses valores
-          print(asyncSnapshot.data.doneTasksFeedback);
-          print(asyncSnapshot.data.lateTasks);
-          print(asyncSnapshot.data.todayTasks);
-
           return PageContainer(
               title: PageTitle(title: 'Notificações'),
               child: ListView(
                 children: [
                   SwitchListTile(
-                      selected:
-                          asyncSnapshot.data.lateTasks, // todo: its working
                       activeColor: Theme.of(ctx).primaryColor,
-                      value: _lateTasksNotification,
+                      value: asyncSnapshot.data.lateTasks,
                       title: Text('Lembrete de tarefas atrasadas'),
                       onChanged: (value) =>
                           _handleLateTasksNotification(ctx, value)),
                   SwitchListTile(
-                    selected: asyncSnapshot.data.todayTasks,
                     activeColor: Theme.of(ctx).primaryColor,
-                    value: _todayTasksNotification,
+                    value: asyncSnapshot.data.todayTasks,
                     onChanged: (value) =>
                         _handleTodayTasksNotification(ctx, value),
                     title: Text('Lembrete de tarefas do dia'),
                   ),
                   SwitchListTile(
                     activeColor: Theme.of(ctx).primaryColor,
-                    value: _doneTasksFeedbackNotification,
+                    value: asyncSnapshot.data.doneTasksFeedback,
                     onChanged: (value) =>
                         _handleDoneTasksFeedbackNotification(ctx, value),
                     title: Text('Feedback de tarefas concluídas no dia'),
@@ -72,24 +60,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
   void _handleLateTasksNotification(BuildContext ctx, bool value) async {
-    this.setState(() {
-      _lateTasksNotification = value;
-    });
     await _saveNotificationPreference(ctx, 'late_tasks', value);
   }
 
   void _handleTodayTasksNotification(BuildContext ctx, bool value) async {
-    this.setState(() {
-      _todayTasksNotification = value;
-    });
     await _saveNotificationPreference(ctx, 'today_tasks', value);
   }
 
   void _handleDoneTasksFeedbackNotification(
       BuildContext ctx, bool value) async {
-    this.setState(() {
-      _doneTasksFeedbackNotification = value;
-    });
     await _saveNotificationPreference(ctx, 'done_tasks_feedback', value);
   }
 
