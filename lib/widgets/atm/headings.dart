@@ -48,3 +48,16 @@ class Heading2 extends StatelessWidget {
     return HeadingBase(title: title, fontSize: _fontSize, color: color);
   }
 }
+
+class BigText extends StatelessWidget {
+  final String title;
+  final Color color;
+  final double _fontSize = 30;
+
+  BigText({@required this.title, this.color = Colors.black});
+
+  @override
+  Widget build(BuildContext ctx) {
+    return HeadingBase(title: title, fontSize: _fontSize, color: color);
+  }
+}

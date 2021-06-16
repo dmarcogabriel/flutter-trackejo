@@ -31,6 +31,9 @@ dependencies:
   sqflite: ^2.0.0+3
   provider: ^5.0.0
   date_format: ^2.0.2
+  fl_chart: ^0.36.1
+  shared_preferences: ^2.0.6
+  flutter_local_notifications: ^5.0.0+4
 
 dev_dependencies:
   flutter_test:
@@ -49,10 +52,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/objectives/objectives_success/assets/target.png
-    - lib/objectives/objectives_success/assets/target@2x.png
-    - lib/objectives/objectives_success/assets/target@3x.png
-    - lib/objectives/objectives_success/assets/target@4x.png
+    - lib/app/objectives/objectives_success/assets/target.png
+    - lib/app/objectives/objectives_success/assets/target@2x.png
+    - lib/app/objectives/objectives_success/assets/target@3x.png
+    - lib/app/objectives/objectives_success/assets/target@4x.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,0 +1,137 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_trackejo/app/home/create_task/create_task_form.dart';
+import 'package:flutter_trackejo/app/home/tab_pages/late_tab.dart';
+import 'package:flutter_trackejo/app/home/tab_pages/next_tab.dart';
+import 'package:flutter_trackejo/app/home/tab_pages/today_tab.dart';
+import 'package:flutter_trackejo/app/home/widgets/tab_title.dart';
+import 'package:flutter_trackejo/providers/tasks.dart';
+import 'package:flutter_trackejo/widgets/views/task_list.dart';
+import 'package:provider/provider.dart';
+import 'sidemenu/sidemenu.dart';
+import 'package:flutter_trackejo/widgets/page.dart';
+
+class TabPage {
+  String title;
+  String subTitle;
+  Widget content;
+  String id;
+  List<Task> tasks = [];
+
+  TabPage({
+    @required this.id,
+    @required this.title,
+    this.content,
+    this.subTitle,
+    this.tasks,
+  });
+}
+
+class HomePage extends StatefulWidget {
+  final List<TabPage> tabPages = [
+    // TabPage(title: 'Todas', id: 'all'),
+    TabPage(title: 'Hoje', id: 'today'),
+    TabPage(
+      id: 'late',
+      title: 'Atrasadas',
+      subTitle: 'É melhor você conferir essas tarefas!',
+    ),
+    TabPage(id: 'next', title: 'Em breve'),
+  ];
+
+  @override
+  _HomePageState createState() => _HomePageState(tabPages: tabPages);
+}
+
+class _HomePageState extends State<HomePage> {
+  List<TabPage> tabPages;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  _HomePageState({@required this.tabPages});
+
+  @override
+  Widget build(BuildContext ctx) {
+    List<Task> _tasks = Provider.of<TasksProvider>(ctx).getTasks();
+
+    // todo: get all tasks
+    return DefaultTabController(
+        length: tabPages.length,
+        child: Scaffold(
+          key: _scaffoldKey,
+          drawer: Drawer(child: SideMenu()),
+          appBar: _buildAppBar(),
+          body: TabBarView(
+              children: tabPages.map((tabPage) {
+            switch (tabPage.id) {
+              // todo: create all tabs
+              // case 'all':
+              //   return AllTab(
+              //     tabPage: tabPage,
+              //     todayTabPage: tabPages.,
+              //     tasks: _tasks,
+              //   );
+              //   break;
+              case 'today':
+                return TodayTab(
+                  tabPage: tabPage,
+                  tasks: _tasks,
+                );
+                break;
+              case 'late':
+                return LateTab(
+                  tabPage: tabPage,
+                  tasks: _tasks,
+                );
+                break;
+              case 'next':
+                return NextTab(
+                  tabPage: tabPage,
+                  tasks: _tasks,
+                );
+                break;
+              default:
+                return PageContainer(
+                  TaskList(
+                      title: tabPage.title,
+                      subTitle: tabPage.subTitle,
+                      tasks: tabPage.tasks ?? []),
+                  noHeader: true,
+                );
+            }
+          }).toList()),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () => _navigateToCreateTask(ctx),
+            backgroundColor: Theme.of(ctx).primaryColor,
+          ),
+        ));
+  }
+
+  Widget _buildAppBar() {
+    return AppBar(
+      iconTheme: IconThemeData(color: Colors.white),
+      leading: IconButton(
+          icon: Icon(Icons.person_outline_rounded),
+          onPressed: () => _scaffoldKey.currentState.openDrawer()),
+      bottom: TabBar(
+        indicatorColor: Colors.white,
+        tabs: tabPages
+            .map((tabPage) => HomeTabTitle(
+                  title: tabPage.title,
+                ))
+            .toList(),
+      ),
+    );
+  }
+
+  void _navigateToCreateTask(BuildContext ctx) async {
+    final result = await Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (_) => CreateTaskPage()));
+
+    if (result == true) {
+      print("need to reload");
+      // todo: reload page
+    } else
+      print('doesnt need to reload');
+  }
+}

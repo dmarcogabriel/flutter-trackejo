@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trackejo/objectives/widgets/objective_option.dart';
-import 'package:flutter_trackejo/objectives/widgets/title_section.dart';
+import 'package:flutter_trackejo/app/objectives/objectives_success/objectives_success.page.dart';
+import 'package:flutter_trackejo/app/objectives/widgets/objective_option.dart';
+import 'package:flutter_trackejo/app/objectives/widgets/title_section.dart';
 import 'package:flutter_trackejo/providers/user.dart';
 import 'package:flutter_trackejo/widgets/mol/primary_button.dart';
 import 'package:flutter_trackejo/widgets/page.dart';
@@ -77,7 +78,8 @@ class _ObjectivesPageState extends State<ObjectivesPage> {
         options.where((option) => option.isSelected).toList();
 
     userProvider.saveObjectives(objectives);
-    Navigator.pushNamed(context, '/success');
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (_) => ObjectivesSuccess()));
   }
 
   bool _noOptionSelected() {

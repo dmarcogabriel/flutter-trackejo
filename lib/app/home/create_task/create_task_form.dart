@@ -10,12 +10,12 @@ import 'package:flutter_trackejo/widgets/org/forms/inputs/text_input.dart';
 import 'package:flutter_trackejo/widgets/page.dart';
 import 'package:provider/provider.dart';
 
-class CreateTaskForm extends StatefulWidget {
+class CreateTaskPage extends StatefulWidget {
   @override
-  _CreateTaskFormState createState() => _CreateTaskFormState();
+  _CreateTaskPageState createState() => _CreateTaskPageState();
 }
 
-class _CreateTaskFormState extends State<CreateTaskForm> {
+class _CreateTaskPageState extends State<CreateTaskPage> {
   String description;
   Choice priority;
   Choice ticket;
@@ -23,7 +23,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
   List<String> priorities;
   List<String> tickets;
 
-  _CreateTaskFormState() {
+  _CreateTaskPageState() {
     priorities = ['Baixa', 'Média', 'Alta'];
     tickets = [
       'Pessoal',
@@ -51,11 +51,10 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
           children: [
             FormsGenerator(inputs: [
               TextInput(
-                  input: Input(
-                      label: 'O que precisa fazer?',
-                      hintText: 'ex: Correr na pista...',
-                      onChanged: (description) => _handleChangeInput(
-                          () => this.description = description))),
+                  label: 'O que precisa fazer?',
+                  hintText: 'ex: Correr na pista...',
+                  onChanged: (description) =>
+                      _handleChangeInput(() => this.description = description)),
               ChipsInput(
                   label: 'Prioridade',
                   choices: priorities.asMap().entries.map((entry) {
@@ -112,10 +111,10 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
     Task task = Task(
         text: description,
         deadline: deadline,
-        priority: priority,
+        priority: priority.label,
         color: 'Black',
         done: false,
-        ticket: ticket);
+        ticket: ticket.label);
     tasksProvider.createTask(task);
     Navigator.pop(ctx, true);
   }

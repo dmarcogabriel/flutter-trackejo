@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_trackejo/widgets/atm/headings.dart';
 import 'package:flutter_trackejo/widgets/mol/primary_button.dart';
 import 'package:flutter_trackejo/widgets/page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ObjectivesSuccess extends StatelessWidget {
   @override
@@ -19,8 +20,8 @@ class ObjectivesSuccess extends StatelessWidget {
             Container(
                 child: Padding(
               padding: EdgeInsets.symmetric(vertical: 35),
-              child: Image.asset(
-                  'lib/objectives/objectives_success/assets/target.png'),
+              child: Image.asset(// ! todo: fix image sizing
+                  'lib/app/objectives/objectives_success/assets/target.png'),
             )),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 7),
@@ -41,7 +42,8 @@ class ObjectivesSuccess extends StatelessWidget {
     );
   }
 
-  void _navigateToHome(context) {
-    Navigator.pushNamed(context, '/home');
+  void _navigateToHome(BuildContext ctx) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isOnboardingShown', true);
   }
 }

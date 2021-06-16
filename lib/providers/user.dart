@@ -10,19 +10,21 @@ class Objective {
 }
 
 class User {
-  List<Objective> objectives;
   String name;
   String email;
+  String password;
 
-  User({this.objectives, this.email, this.name});
+  User({@required this.email, @required this.name, this.password});
 }
 
 class UserProvider {
   User user;
+  // ignore: unused_field
+  List<Objective> _objectives;
 
-  UserProvider()
-      : user = User(
-            email: 'victoria.robertson@gmail.com', name: 'Victoria Robertson');
+  UserProvider({this.user});
+
+  User setCurrentUser(User user) => this.user = user;
 
   User getCurrentUser() {
     return user;
@@ -30,7 +32,7 @@ class UserProvider {
 
   bool saveObjectives(List<Objective> objectives) {
     if (objectives != null && objectives.isNotEmpty) {
-      user.objectives = objectives;
+      _objectives = objectives;
       return true;
     }
     return false;
